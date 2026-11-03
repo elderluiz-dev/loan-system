@@ -19,6 +19,12 @@ def main():
     except FileNotFoundError:
         loans = []
 
+    try:
+        with open("moves.json", "r") as file:
+            moves = json.load(file)
+    except FileNotFoundError:
+        moves = []
+
     while True:
         opt = main_menu()
 
@@ -62,6 +68,7 @@ def main():
                     try: 
                         new_loan = reg_loan(lib)
                         loans.append(new_loan)
+                        moves.append(new_loan)
                         clear_terminal()
                         print("Empréstimo concluído!\n")
 
@@ -78,15 +85,24 @@ def main():
                 else:
                     print("Nenhum empréstimo em aberto.\n")
 
+            case "6":
+                clear_terminal()
+                if moves != []:
+                    show_moves(moves)
+                else:
+                    print("Nenhuma movimentação ainda.\n")
+
             case "7":
                 clear_terminal()
                 try:
                     if loans != []:
-                        if reg_return(loans, lib) == False:
+                        returns = reg_return(loans, lib)
+                        if returns == False:
                             clear_terminal()
                             print("ID inválido.\n")
                         else:
                             clear_terminal()
+                            moves.append(returns)
                             print("Devolução registrada com sucesso!\n")
                     else:
                         print("Nenhum empréstimo em aberto\n")
@@ -100,6 +116,9 @@ def main():
 
                 with open("loans.json", "w", encoding='utf-8') as file:
                     json.dump(loans, file, indent=4, ensure_ascii=False)
+
+                with open("moves.json", "w", encoding='utf-8') as file:
+                    json.dump(moves, file, indent=4, ensure_ascii=False)
 
                 print("Programa encerrado pelo usuário.")
                 break

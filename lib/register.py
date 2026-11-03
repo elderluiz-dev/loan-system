@@ -58,7 +58,11 @@ def reg_return(loans, lib):
             for book in lib:
                 if choose == book['id']:
                     book['quant'] += 1
+                    returned = {
+                        "name": loan['reader'],
+                        "book_id": book['id']
+                    }
 
-            return True
+            return returned
         
     return False

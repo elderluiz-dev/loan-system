@@ -41,3 +41,14 @@ def show_open_loans(loans):
     for loan in loans:
         print(f"ID do livro: {loan['book']}")
         print(f"Nome do leitor: {loan['reader']}\n")
+
+def show_moves(moves):
+    for move in moves:
+        try:
+            print(f"ID do livro: {move['book']}")
+            print(f"Leitor: {move['reader']}")
+            print("Tipo: Empréstimo\n")
+        except KeyError:
+            print(f"ID do livro: {move['book_id']}")
+            print(f"Leitor: {move['name']}")
+            print("Tipo: Devolução\n")
